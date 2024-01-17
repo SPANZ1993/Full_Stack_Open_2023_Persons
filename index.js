@@ -1,8 +1,10 @@
 const express = require('express')
 const morgan = require('morgan')
+const cors = require('cors')
 
 const app = express()
 
+app.use(cors())
 
 morgan.token('postdata', (req, res) => Object.keys(req.route.methods).includes('post') ? JSON.stringify(req.body) : '')
 
