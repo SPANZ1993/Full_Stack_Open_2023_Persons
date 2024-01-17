@@ -4,21 +4,25 @@ const cors = require('cors')
 
 const app = express()
 
+app.use(express.static('dist'))
 app.use(cors())
 
-morgan.token('postdata', (req, res) => Object.keys(req.route.methods).includes('post') ? JSON.stringify(req.body) : '')
 
-app.use(morgan(function (tokens, req, res) {
-    return [
-      tokens.method(req, res),
-      tokens.url(req, res),
-      tokens.status(req, res),
-      tokens.res(req, res, 'content-length'), '-',
-      tokens['response-time'](req, res), 'ms',
-      tokens['postdata'](req, res)
-    ].join(' ')
-  })
-)
+morgan('tiny')
+
+// morgan.token('postdata', (req, res) => Object.keys(req.route.methods).includes('post') ? JSON.stringify(req.body) : '')
+
+// app.use(morgan(function (tokens, req, res) {
+//     return [
+//       tokens.method(req, res),
+//       tokens.url(req, res),
+//       tokens.status(req, res),
+//       tokens.res(req, res, 'content-length'), '-',
+//       tokens['response-time'](req, res), 'ms',
+//       tokens['postdata'](req, res)
+//     ].join(' ')
+//   })
+// )
 
 
 app.use(express.json())
@@ -103,6 +107,7 @@ app.post('/api/persons', (request, response) => {
     response.json(person)
 })
 
-const PORT = 3001
-app.listen(PORT)
-console.log(`Server running on port ${PORT}`)
+const PORT = process.env.PORT || 3001
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`)
+})
