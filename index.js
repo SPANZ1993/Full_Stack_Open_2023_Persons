@@ -8,7 +8,7 @@ app.use(express.static('dist'))
 app.use(cors())
 
 
-morgan.token('postdata', (req, res) => return Object.keys(req.method.toLowerCase() === 'post') ? JSON.stringify(req.body) : '')
+morgan.token('postdata', (req, res) => Object.keys(req.method.toLowerCase() === 'post') ? JSON.stringify(req.body) : '')
 
 app.use(morgan(function (tokens, req, res) {
     var postdata = tokens['postdata'](req, res)
