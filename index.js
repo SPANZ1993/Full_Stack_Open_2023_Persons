@@ -8,21 +8,22 @@ app.use(express.static('dist'))
 app.use(cors())
 
 
-morgan('tiny')
+morgan.token('postdata', (req, res) => return Object.keys(req.method.toLowerCase() === 'post') ? JSON.stringify(req.body) : '')
 
-// morgan.token('postdata', (req, res) => Object.keys(req.route.methods).includes('post') ? JSON.stringify(req.body) : '')
-
-// app.use(morgan(function (tokens, req, res) {
-//     return [
-//       tokens.method(req, res),
-//       tokens.url(req, res),
-//       tokens.status(req, res),
-//       tokens.res(req, res, 'content-length'), '-',
-//       tokens['response-time'](req, res), 'ms',
-//       tokens['postdata'](req, res)
-//     ].join(' ')
-//   })
-// )
+app.use(morgan(function (tokens, req, res) {
+    var postdata = tokens['postdata'](req, res)
+    postdata = postdata !== '{}' ? postdata : '' 
+    
+    return [
+      tokens.method(req, res),
+      tokens.url(req, res),
+      tokens.status(req, res),
+      tokens.res(req, res, 'content-length'), '-',
+      tokens['response-time'](req, res), 'ms',
+      postdata
+    ].join(' ')
+  })
+)
 
 
 app.use(express.json())
