@@ -23,3 +23,14 @@ Content-Type: application/json
 {
     "name": "Sluggo"
 }
+
+###
+
+POST http://localhost:3001/api/persons
+Content-Type: application/json
+
+{
+    "name": "F",
+    "number": 123
+}
+
